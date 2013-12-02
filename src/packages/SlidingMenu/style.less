@@ -1,0 +1,52 @@
+.slidingMenuView {
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+
+    .menu {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .container {
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        overflow: auto;
+        z-index: 0;
+
+        .content {
+            -webkit-overflow-scrolling: touch;
+            height: 100%;
+            overflow:auto;
+        }
+
+        &.animated {
+            transition:-webkit-transform 0.3s ease-in-out;
+        }
+
+        .header {
+            position: absolute;
+            width: 100%;
+            opacity: 0.9;
+            background-color: #fff;
+            z-index: 1;
+
+            .burger {
+                display: inline-block;
+                cursor: pointer;
+                font-size: 20pt;
+                padding: 10px;
+            }
+
+            .headerContent {
+                display: inline-block;
+            }
+        }
+    }
+}
