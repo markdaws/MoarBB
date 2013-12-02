@@ -37,17 +37,13 @@ module.exports = function(grunt) {
                     return filename.match(/src\/packages\/([^/]*)/)[1];
                 }
             },
-            foo: {
+            all: {
                 files: { './tmp/templates.js': ['src/packages/**/*.html'] }
             }
         },
-        concat: {
-            options: {
-                separator: ';',
-                foo: {
-                    files: {}
-                }
-            }
+        watch: {
+            files: ['src/**/*.less', 'src/**/*.js', 'src/**/*.html'],
+            tasks: ['build-dev']
         }
     });
 
@@ -59,6 +55,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
-    grunt.registerTask('build-dev', ['clean:tmp', 'jst:foo', 'uglify:dev', 'less:dev', 'clean:tmp']);
-    grunt.registerTask('build-prod', ['clean:tmp', 'jst:foo', 'uglify:prod', 'less:prod', 'clean:tmp']);
+    grunt.registerTask('build-dev', ['clean:tmp', 'jst:all', 'uglify:dev', 'less:dev', 'clean:tmp']);
+    grunt.registerTask('build-prod', ['clean:tmp', 'jst:all', 'uglify:prod', 'less:prod', 'clean:tmp']);
+    grunt.registerTask('default', ['watch']);
 };

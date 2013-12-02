@@ -1,24 +1,39 @@
 $(document).ready(function() {
 
-    var headerView, contentView, menuView;
+    var slidingMenu = new moarbb.views.SlidingMenuView({
+        // optional - the view that appears in the header area
+        header: new TestHeader({ testName: 'foo' }),
 
-    menuView = new TestMenu({});
-    var menu = new moarbb.views.SlidingMenuView({
-        // optional
-        //header: new TestHeader({ testName: 'foo' }),
+        // required - the view that appears in the content area
         content: new TestContent({ testName: 'abc'}),
-        menu: menuView
-    });
-    $('#content').append(menu.$el);
-    menu.render();
 
-    menuView.on('menuItemClicked', function(index) {
-        menu.setContent(new TestContent({ testName: index }));
-        //menu.setHeader(new TestHeader({ testName: index }));
+        // required - the view that renders the menu
+        menu: new TestMenu({}),
+
+        // If true the burger icon you can click on is hidden,
+        // then it is up to you to build the open/close dynamics
+        // in to your header view
+        hideBurger: false,
+
+        // If true the menu initially appears open on load
+        menuOpen: false,
+
+        // The width of the opened menu
+        menuWidth: 350
+    });
+
+    $('#content').append(slidingMenu.$el);
+    slidingMenu.render();
+
+    // In this example, when the user clicks on a menu item
+    // we update the sliding menu content and header view
+    slidingMenu.menu.on('menuItemClicked', function(index) {
+        slidingMenu.setContent(new TestContent({ testName: index }));
+        slidingMenu.setHeader(new TestHeader({ testName: index }));
     });
 });
 
-
+// Test view showing content
 var TestContent = Backbone.View.extend({
     render: function() {
         for(var i=0; i<100; ++i) {
@@ -27,12 +42,11 @@ var TestContent = Backbone.View.extend({
                               this.options.testName + ' : ' + i 
                               + '</div>'));
         }
-        this.$el.css({
-            'background-color': '#ff0000'
-        });
+        this.$el.css({ 'background-color': '#ff0000' });
     }
 });
 
+// Test menu view
 var TestMenu = Backbone.View.extend({
     render: function() {
         var $ul = $('<ul style="margin:0"></ul>');
@@ -46,12 +60,11 @@ var TestMenu = Backbone.View.extend({
             self.trigger('menuItemClicked', $(this).index());
         });
 
-        this.$el.css({
-            'background-color': '#aaaaaa'
-        });
+        this.$el.css({ 'background-color': '#aaaaaa' });
     }
 });
 
+// Test menu header
 var TestHeader = Backbone.View.extend({
     render: function() {
         this.$el.html($('<span>I am a header - ' +
@@ -59,33 +72,3 @@ var TestHeader = Backbone.View.extend({
                         + '</span>'));
     }
 });
-
-/*
- TODOs
-
- - allow user to supply custom header
- - support Chrome/Firefox/IE9 +
- - support touch events
- - user supply custom content view
- - make sure content can scroll properly
- - click burger to toggle
- - drag burger
- - drag on body content (make option)
- - README.md
-
- - ability to change header, content
- - make content go under header ...
-
- - drag not working on desktop ...
-
-
-FEATURES:
- - ability to change content dynamically ...
- - drag menu open/close
- - click to open/close
- - dynamically change header
- - dynamically change content
-
-
-
- */

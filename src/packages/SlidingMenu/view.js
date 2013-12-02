@@ -26,9 +26,9 @@
                 throw 'You must supply a menu parameter';
             }
 
-            this._content = params.content;
-            this._menu = params.menu;
-            this._header = params.header;
+            this.content = params.content;
+            this.menu = params.menu;
+            this.header = params.header;
             this._menuIsOpen = false;
             this._hideBurger = params.hideBurger != null ? params.hideBurger : false;
             this._menuIsOpenOnLoad = params.menuOpen != null ? params.menuOpen : false;
@@ -37,9 +37,9 @@
 
         render: function() {
             this.$el.html(this.template({}));
-            this.setContent(this._content);
-            this.setMenu(this._menu);
-            this.setHeader(this._header);
+            this.setContent(this.content);
+            this.setMenu(this.menu);
+            this.setHeader(this.header);
 
             if (this._hideBurger) {
                 this.$('.burger').hide();
@@ -53,8 +53,8 @@
         remove: function() {
             this.stopListening();
             this.$el.remove();
-            this._content.remove();
-            this._menu.remove();
+            this.content.remove();
+            this.menu.remove();
             this._headerView && this._headerView.remove();
             return this;
         },
@@ -87,21 +87,21 @@
         },
 
         setMenu: function(view) {
-            if (this._menu != view) {
-                this._menu && this._menu.remove();
+            if (this.menu != view) {
+                this.menu && this.menu.remove();
             }
-            this._menu = view;
-            this.$('.menu').append(this._menu.$el);
-            this._menu.render();
+            this.menu = view;
+            this.$('.menu').append(this.menu.$el);
+            this.menu.render();
         },
 
         setContent: function(view, keepMenuOpen) {
-            if (this._content != view) {
-                this._content && this._content.remove();
+            if (this.content != view) {
+                this.content && this.content.remove();
             }
-            this._content = view;
-            this.$('.content').append(this._content.$el);
-            this._content.render();
+            this.content = view;
+            this.$('.content').append(this.content.$el);
+            this.content.render();
 
             if (!keepMenuOpen) {
                 this.closeMenu();
@@ -111,18 +111,17 @@
         },
 
         setHeader: function(view) {
-            if (this._header != view) {
-                this._header && this._header.remove();
+            if (this.header != view) {
+                this.header && this.header.remove();
             }
 
-            if (!this._header) {
+            if (!this.header) {
                 return;
             }
 
-            this._header = view;
-            this.$('.headerContent').append(this._header.$el);
-            this._header.render();
-
+            this.header = view;
+            this.$('.headerContent').append(this.header.$el);
+            this.header.render();
             this._setHeaderPadding();
         },
 
